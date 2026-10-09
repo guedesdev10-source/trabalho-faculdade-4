@@ -623,3 +623,58 @@ body {
   font-weight: 600;
   margin-top: 1rem;
 }
+.zona-detalhes {
+  margin-top: 24px;
+  padding: 24px;
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #e8e8e8;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.zona-detalhes h3 {
+  margin: 0 0 18px;
+  color: #69a85f;
+  font-size: 20px;
+}
+
+.zona-detalhes p {
+  margin: 10px 0;
+  color: #555;
+}
+
+.zona-detalhes strong {
+  color: #222;
+}
+
+.zona-detalhes button {
+  margin-top: 12px;
+  padding: 8px 18px;
+  border: none;
+  border-radius: 8px;
+  background: #69a85f;
+  color: #ffffff;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.zona-detalhes button:hover {
+  background: #578f4e;
+}
+.sistemas__alerta {
+  margin: 20px 0;
+  padding: 15px 20px;
+  background-color: #fff8e1;
+  border-left: 5px solid #f5b642;
+  border-radius: 10px;
+}
+
+.sistemas__alerta h3 {
+  margin: 0 0 8px;
+  color: #555;
+}
+
+.sistemas__alerta p {
+  margin: 0;
+  color: #666;
+}

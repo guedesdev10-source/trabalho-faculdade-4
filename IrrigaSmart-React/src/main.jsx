@@ -3,12 +3,12 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter, NavLink, Routes, Route } from 'react-router-dom';
 import './style.css';
 
-const initialZones = [
-  { id: 1, name: 'Área 1 — Horticultura', detail: '30 min · 06:00 · Seg a Sex', active: true },
-  { id: 2, name: 'Área 2 — Fruticultura', detail: '25 min · 07:30 · Diário', active: true },
-  { id: 3, name: 'Área 3 — Pastagem', detail: '20 min · 09:00 · Sáb e Dom', active: true },
-  { id: 4, name: 'Área 4 — Estufa', detail: '15 min · 11:00 · Ter e Qui', active: false },
-  { id: 5, name: 'Área 5 — Reserva', detail: '40 min · 14:00 · Seg, Qua e Sex', active: false },
+const initialZones =  [
+  { id: 1, name: 'Área 1 - Horticultura', duration: '30 min', time: '06:00', days: 'Seg a Sex', active: true },
+  { id: 2, name: 'Área 2 - Fruticultura', duration: '25 min', time: '07:30', days: 'Diário', active: true },
+  { id: 3, name: 'Área 3 - Pastagem', duration: '20 min', time: '09:00', days: 'Sáb e Dom', active: true },
+  { id: 4, name: 'Área 4 - Estufa', duration: '15 min', time: '11:00', days: 'Ter e Qui', active: false },
+  { id: 5, name: 'Área 5 - Reserva', duration: '40 min', time: '14:00', days: 'Seg, Qua e Sex', active: false },
 ];
 
 function Layout() {
@@ -87,13 +87,15 @@ function Systems() {
     const savedZones = localStorage.getItem('zones');
 
     return savedZones
-      ? JSON.parse(savedZones)
-      : initialZones;
-  });
+        ? JSON.parse(savedZones)
+        : initialZones;
+});
 
-  const [liters, setLiters] = useState('');
-  const [times, setTimes] = useState('');
-  const [result, setResult] = useState(null);
+const [selectedZone, setSelectedZone] = useState(null);
+
+const [liters, setLiters] = useState('');
+const [times, setTimes] = useState('');
+const [result, setResult] = useState(null);
 
   const activeCount = zones.filter(zone => zone.active).length;
 
@@ -131,11 +133,22 @@ function Systems() {
         <p>Gerencie as zonas e os horários de irrigação</p>
       </div>
       <ul className="sistemas__painel__list">
-        <Card icon="arquitetura" image="arquitetura.png" title="Zonas ativas" value={`${activeCount} / 5`} />
-        <Card icon="relogio" image="relogio.png" title="Próxima irrigação" value="06:00" />
-        <Card icon="agua" image="agua.png" title="Consumo hoje" value="20 L" />
-      </ul>
-      <div className="sistemas__grid">
+  <Card icon="arquitetura" image="arquitetura.png" title="Zonas ativas" value={`${activeCount} / 5`} />
+  <Card icon="relogio" image="relogio.png" title="Próxima irrigação" value="06:00" />
+  <Card icon="agua" image="agua.png" title="Consumo hoje" value="20 L" />
+</ul>
+
+<div className="sistemas__alerta">
+  <h3>Alertas</h3>
+
+  {activeCount > 0 ? (
+    <p>⚠️ Existem {activeCount} zonas com irrigação ativa.</p>
+  ) : (
+    <p>✅ Nenhuma zona está ativa no momento.</p>
+  )}
+</div>
+
+<div className="sistemas__grid">
         <div className="sistemas__zonas">
           <h3 className="sistemas__zonas-subtitulo">Zonas de Irrigação</h3>
           <ul className="sistemas__zonas__list">
@@ -145,6 +158,14 @@ function Systems() {
                   <h4 className="zona__item-nome">{zone.name}</h4>
                   <p className="zona__item-detalhe">{zone.detail}</p>
                 </div>
+                <button
+  type="button"
+  className="zona__detalhes"
+  onClick={() => setSelectedZone(zone)}
+>
+  Ver detalhes
+</button>
+                
                 <button
                   type="button"
                   className={`zona__item-badge zona__item-badge--${zone.active ? 'ativo' : 'inativo'} zona-toggle`}
@@ -172,6 +193,34 @@ function Systems() {
           </table>
         </div>
       </div>
+      {selectedZone && (
+  <div className="zona-detalhes">
+    <h3>Detalhes da área</h3>
+
+    <p>
+      <strong>Área:</strong> {selectedZone.name}
+    </p>
+
+    <p>
+      <strong>Duração:</strong> {selectedZone.duration}
+    </p>
+
+    <p>
+      <strong>Horário:</strong> {selectedZone.time}
+    </p>
+
+    <p>
+      <strong>Dias:</strong> {selectedZone.days}
+    </p>
+
+    <button
+      type="button"
+      onClick={() => setSelectedZone(null)}
+    >
+      Fechar
+    </button>
+  </div>
+)}
       <section className="simulador">
         <h3>Simulador de Consumo de Água</h3>
         <label htmlFor="litros" className="form-text">Litros por irrigação:</label>
