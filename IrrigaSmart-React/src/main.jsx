@@ -319,7 +319,7 @@ function Info({ image, title, text }) {
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename="/trabalho-faculdade-4">
       <Layout />
     </BrowserRouter>
   </React.StrictMode>
